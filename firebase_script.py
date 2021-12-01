@@ -6,7 +6,9 @@ from firebase_admin import firestore
 #cred = credentials.Certificate("/mnt/c/Users/soumi/Downloads/fir-flasksofia-firebase-adminsdk-zq0sm-c1b8842fd6.json")
 #project_id = "fir-flasksofia"
 
-cred = credentials.Certificate("/mnt/c/Users/soumi/Downloads/fir-flasksofia-firebase-adminsdk-zq0sm-c1b8842fd6.json")
+#cred = credentials.Certificate("/mnt/c/Users/soumi/Downloads/fir-flasksofia-firebase-adminsdk-zq0sm-c1b8842fd6.json")
+
+cred = credentials.Certificate("fir-flasksofia-firebase-adminsdk-zq0sm-c1b8842fd6.json")
 firebase_admin.initialize_app(cred)
 
 
