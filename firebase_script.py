@@ -48,6 +48,9 @@ for i in range(len(get_pose_obj)):
                     blob.make_public()
                     print(blob.public_url)
                     video_mux_url = blob.public_url
+
+                    # https://docs.mux.com/guides/video/stream-video-files
+
                     data_input = video_mux_url
                 if field == "image":
                     # upload the img to firebase storage
