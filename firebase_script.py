@@ -3,7 +3,12 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore, storage
 import os
+import mux_python
+
 os.environ['GRPC_DNS_RESOLVER'] = 'native'
+configuration = mux_python.Configuration()
+configuration.username = os.environ['MUX_TOKEN_ID']
+configuration.password = os.environ['MUX_TOKEN_SECRET']
 
 cred = credentials.Certificate("fir-flasksofia-firebase-adminsdk-zq0sm-c1b8842fd6.json")
 firebase_admin.initialize_app(cred,{
@@ -47,9 +52,17 @@ for i in range(len(get_pose_obj)):
                     blob.upload_from_filename(data_input)
                     blob.make_public()
                     print(blob.public_url)
-                    video_mux_url = blob.public_url
+                    video_storage_url = blob.public_url
 
+                    # MUX
+
+                    assets_api = mux_python.AssetsApi(mux_python.ApiClient(configuration))
+                    input_settings = [mux_python.InputSettings(url=video_storage_url)]
+                    create_asset_request = mux_python.CreateAssetRequest(input=input_settings)
+                    create_asset_response = assets_api.create_asset(create_asset_request)
                     # https://docs.mux.com/guides/video/stream-video-files
+                    PLAYBACK_ID = create_asset_response['data']['playback_ids'][id]
+                    video_mux_url = "https://stream.mux.com/"+PLAYBACK_ID+".m3u8"
 
                     data_input = video_mux_url
                 if field == "image":
